@@ -18,15 +18,12 @@ import os
 from datetime import datetime, timedelta
 import pathlib
 import requests
+from requests.adapters import HTTPAdapter, Retry
 import random
 from time import sleep
 
 # %% Self-defined functions
-requests.adapters.DEFAULT_RETRIES = 5
 
-import requests
-
-from requests.adapters import HTTPAdapter, Retry
 
 def download_results(url, filename, overwrite=False):
     s = requests.Session()
@@ -67,5 +64,5 @@ while count < len(dates):
     url_all = url_1 + region + '%2F' + station + '%2F' + station + '.nc4&time=' + str(dates[count]) + 'T00%3A00%3A00%2F' + str(dates[count + 1]) + 'T23%3A59%3A59&format=' + format_str + "&variables=" + variables + "&allYears=False"
     filename = station + '_' + dates[count].isoformat().replace("-", "") + '.csv'
     response = download_results(url_all, filename)
-    sleep(random.uniform(5,10))
+    sleep(random.uniform(1, 3))
     count += 1
